@@ -7,7 +7,7 @@ public class BST<E extends Comparable<E>>{
 	Node root;
 	// size of tree
 	int size;
-
+	// Constructors
 	BST (){
 		root= null;
 		size= 0;
@@ -96,10 +96,26 @@ public class BST<E extends Comparable<E>>{
 	}
 
 	// number of elements in tree
-	public void size() {
-		return;
+	public  int size() {
+		//return sizeHelper(root);
+		System.out.println("Size is " + sizeHelper(root));
+		return sizeHelper(root);
+		
 
 	}
+	private int sizeHelper(Node root) {
+		//Node current = root;
+		if (root == null)
+            return 0;
+        else{
+            int count = 1;
+            count += sizeHelper(root.left);
+            count += sizeHelper(root.right);
+            return count;
+        }
+	}
+	
+	
 	// height of the tree
 	public void height() {
 
@@ -247,6 +263,9 @@ public class BST<E extends Comparable<E>>{
 		// newTree.clearAll();
 		treeDemo.postorder();
 		treeDemo.search(10);
+		treeDemo.delete(4);
+		treeDemo.inorder();
+		treeDemo.size();
 
 
 	}
