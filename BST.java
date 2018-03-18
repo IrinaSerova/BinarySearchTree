@@ -96,10 +96,10 @@ public class BST<E extends Comparable<E>>{
 	}
 
 	// number of elements in tree
-	public  int size() {
-		//return sizeHelper(root);
+	public  void size() {
+	
 		System.out.println("Size is " + sizeHelper(root));
-		return sizeHelper(root);
+		
 		
 
 	}
@@ -118,8 +118,23 @@ public class BST<E extends Comparable<E>>{
 	
 	// height of the tree
 	public void height() {
-
+		System.out.println("Height is " + heightHelper(root));
 	}
+	private int heightHelper(Node root) {
+		int heightLeft = 0;
+	    int heightRight = 0;
+	    if(root.left!=null)
+	        heightLeft = heightHelper(root.left);
+	    if(root.right!=null)
+	        heightRight = heightHelper(root.right);
+	    if(heightLeft > heightRight){
+	        return heightLeft+1;
+	    }
+	    else{
+	        return heightRight+1;
+	    }
+        }
+	
 
 	/* Implement E Min(Node root) */
 	public E min(Node root) {
@@ -266,6 +281,7 @@ public class BST<E extends Comparable<E>>{
 		treeDemo.delete(4);
 		treeDemo.inorder();
 		treeDemo.size();
+		treeDemo.height();
 
 
 	}
