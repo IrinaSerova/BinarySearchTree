@@ -1,7 +1,5 @@
 package com.irinaserova;
 
-
-
 public class BST<E extends Comparable<E>>{
 	// root of tree
 	Node root;
@@ -42,6 +40,7 @@ public class BST<E extends Comparable<E>>{
 		int value = item.compareTo(root.data);
 		// if item is same as root's data means already in tree
 		if(value == 0) {
+			System.out.println("This item is already in tree");
 			return false;
 		}
 		//   if item smaller than root
@@ -74,7 +73,7 @@ public class BST<E extends Comparable<E>>{
 	}
 	/* Implement Node search(E item) */
 
-	public void search(E item) {
+	public E search(E item) {
 		Node found = searchHelper(root, item);
 		if(found == null) {
 			System.out.println("Not in Tree");
@@ -82,9 +81,10 @@ public class BST<E extends Comparable<E>>{
 		else {
 			System.out.println("Found " + found.data);
 		}
+		return found.data;
 	}
 
-	private Node searchHelper(Node root, E item) {
+	public Node searchHelper(Node root, E item) {
 		//item not in tree or first one is item
 		if(root == null || root.data == item) {
 			return root;
@@ -137,69 +137,201 @@ public class BST<E extends Comparable<E>>{
 
 
 	/* Implement E Min(Node root) */
-		public  E min() {
-			System.out.println("Minimum value of BST is " + minHelper(root));
-			return minHelper(root);
+	public  E min() {
+		System.out.println("Minimum value of BST is " + minHelper(root));
+		return minHelper(root);
+	}
+
+
+	public E minHelper(Node root) {
+		Node current = root;
+
+		/* loop down to find the leftmost leaf */
+		while (current.left != null) {
+			current = current.left;
 		}
-		
-		
-		public E minHelper(Node root) {
-			Node current = root;
-	
-			/* loop down to find the leftmost leaf */
-			while (current.left != null) {
-				current = current.left;
-			}
-			return (current.data);
-	
-		}	
+		return (current.data);
 
-
-
+	}	
 
 	/* Implement E Max(Node root) */
-		public  E max() {
-			System.out.println("Maximum value of BST is " + maxHelper(root));
-			return maxHelper(root);
+	public  E max() {
+		System.out.println("Maximum value of BST is " + maxHelper(root));
+		return maxHelper(root);
+	}
+
+	private E maxHelper(Node root) {
+		Node current = root;
+
+		/* loop down to find the leftmost leaf */
+		while (current.right != null) {
+			current = current.right;
 		}
-		
-		
-		public E maxHelper(Node root) {
-			Node current = root;
-	
-			/* loop down to find the leftmost leaf */
-			while (current.right != null) {
-				current = current.right;
-			}
-			return (current.data);
-	
-		}	
+		return (current.data);
+	}	
 
 	/* Implement Node successor(Node root, E item) */
-	public Node succesor(Node root, E item) {
-		if (root == null) 
-			return null; // no successor
-		else if (root.right != null) {
-			root = root.right;
-			while (root.left != null) {
-				root = root.left;
+	//  successor is the minimum value in right subtree
+	// the first "left-type" parent node of node x   
+	public  Node find(E item) {
+		Node current = root; // Start from the root
+		while (current != null) {
+			if (item.compareTo(current.data) < 0) {
+				current = current.left;
 			}
-			return root;
-		} else {
-			Node parent = root.parent;
-			while (parent != null && parent.right == root) {
-				root = parent;
-				parent = root.parent;
+			else if (item.compareTo(current.data) > 0) {
+				current = current.right;
 			}
-			return parent;
+			else // element matches current.element
+				return current; // Element is found
+		}
+		return null;
+	}
+	public void successor(E item) {
+
+		if(successorHelper(item) == null) {
+			System.out.println("The item has no successor");
+
+		} 
+		else {
+			System.out.println("The successor of " + item + " is " + successorHelper(item));
+			successorHelper(item);
 		}
 	}
+	public E successorHelper(E item){
+
+		BST<E>.Node current =  find(item);
+		if(current == null) {
+			return null;
+		
+		}
+		if(current.left != null) { // case 1: has left subtree
+
+			current = current.left; //left subtree
+			while(current.right != null) // find right most
+				current = current.right;
+			return current.data;
+		}
+		else { // case 2: no left subtree traverse until we hit the element
+
+			Node parent = root; 
+			Node predecessor = null;
+			while(parent != null){
+				if(current.data.compareTo(parent.data) > 0) {
+					predecessor = parent;
+					parent = parent.right;
+				}
+				else{
+					parent = parent.left;
+				}
+			}
+			if(predecessor == null) {
+				return null;
+			}
+			else
+
+				return predecessor.data;
+
+		}
+
+	}
+	
+//	public void successor() {
+//		if(root == null) {
+//			System.out.println("The BST has no successor");
+//
+//		}
+//		System.out.println("The succeccor of of " + root.data + " is " + successorHelper(root));
+//		successorHelper(root);
+//
+//	}
+//	public E successorHelper(Node root) {
+//
+//		if (root == null) 
+//			return null; // no successor
+//		else if (root.right != null) {
+//			root = root.right;
+//			while (root.left != null) {
+//				root = root.left;
+//			}
+//			return root.data;
+//		} else {
+//			Node parent = root.parent;
+//			while (parent != null && parent.right == root) {
+//				root = parent;
+//				parent = root.parent;
+//			}
+//			return parent.data;
+//		}
+//	}
+	/* Implement Node predecessor(Node root, E item) */
+	// predecessor is the maximum value in left subtree
+
+
+	
+
+	public void predecessor(E item) {
+
+		if(predecessorHelper(item) == null) {
+			System.out.println("The item has no predecessor");
+
+		} 
+		else {
+			System.out.println("The predecessor of " + item + " is " + predecessorHelper(item));
+			predecessorHelper(item);
+		}
+	}
+	public E predecessorHelper(E item){
+
+		BST<E>.Node current =  find(item);
+		if(current == null) {
+			return null;
+		
+		}
+		if(current.left != null) { // case 1: has left subtree
+
+			current = current.left; //left subtree
+			while(current.right != null) // find right most
+				current = current.right;
+			return current.data;
+		}
+		else { // case 2: no left subtree traverse until we hit the element
+
+			Node parent = root; 
+			Node predecessor = null;
+			while(parent != null){
+				if(current.data.compareTo(parent.data) > 0) {
+					predecessor = parent;
+					parent = parent.right;
+				}
+				else{
+					parent = parent.left;
+				}
+			}
+			if(predecessor == null) {
+				return null;
+			}
+			else
+
+				return predecessor.data;
+
+		}
+
+	}
+
+
 	/* Implement inOrder(), preOrder(), postOrder() traversal functions */
-	public void preorder(Node root) {
+	public void preorder() {
+		if(root == null) {
+			System.out.println("root is null");
+		}
+		preorderHelper(root);
+	}
+	private void preorderHelper(Node root) {
 		if(root != null) {
 			System.out.println(root.data);
-			preorder(root.left);
-			preorder(root.right);
+			preorderHelper(root.left);
+			preorderHelper(root.right);
 		}
 	}
 
@@ -236,7 +368,7 @@ public class BST<E extends Comparable<E>>{
 	}
 
 
-//	/* Implement delete(E item) */
+	//	/* Implement delete(E item) */
 	public void delete(E item) {
 		root = deleteHelper(root, item);
 	}
@@ -257,7 +389,7 @@ public class BST<E extends Comparable<E>>{
 			else if (root.right == null)
 				return root.left;
 			root.data = min();
-		//	root.data = min(root.right);
+			//	root.data = min(root.right);
 			// Delete the inorder successor
 			root.right = deleteHelper(root.right, root.data);
 		}
@@ -282,8 +414,9 @@ public class BST<E extends Comparable<E>>{
 	public static void main(String[] args) {
 		BST <Integer> treeDemo = new BST<Integer>();
 		System.out.println("In order");
-		treeDemo.add(Integer.valueOf(4));
 		treeDemo.add(Integer.valueOf(7));
+		treeDemo.add(Integer.valueOf(4));
+
 		treeDemo.add(Integer.valueOf(12));
 		treeDemo.add(Integer.valueOf(10));
 		treeDemo.add(Integer.valueOf(16));
@@ -293,16 +426,22 @@ public class BST<E extends Comparable<E>>{
 		treeDemo.add(Integer.valueOf(11));
 		treeDemo.add(Integer.valueOf(15));
 		treeDemo.inorder();
-		System.out.println("Post order");
+		//		System.out.println("Post order");
 		// newTree.clearAll();
+		//		treeDemo.postorder();
+		//		treeDemo.search(10);
+		//		treeDemo.delete(4);
+		//		treeDemo.inorder();
+		//		treeDemo.size();
+		//		treeDemo.height();
+		//		treeDemo.min();
+		//		treeDemo.max();
+		treeDemo.successor();
+		//	treeDemo.predecessor(null, 3);
 		treeDemo.postorder();
-		treeDemo.search(10);
-		treeDemo.delete(4);
-		treeDemo.inorder();
-		treeDemo.size();
-		treeDemo.height();
-		treeDemo.min();
-		treeDemo.max();
+		System.out.println("test");
+		treeDemo.predecessor(7);
+		//	System.out.println("of"+ item + "is" + treeDemo.inorderPredecessor(22));
 
 		//System.out.println("The minimum value of BST is " + treeDemo.min(root));
 
