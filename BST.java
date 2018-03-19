@@ -21,7 +21,6 @@ public class BST<E extends Comparable<E>>{
 			left = null;
 			right = null;
 			data = null;
-
 		}
 	}
 
@@ -116,7 +115,6 @@ public class BST<E extends Comparable<E>>{
 		}
 	}
 
-
 	// height of the tree
 	public void height() {
 		System.out.println("Height is " + heightHelper(root));
@@ -142,7 +140,6 @@ public class BST<E extends Comparable<E>>{
 		System.out.println("Minimum value of BST is " + minHelper(root));
 		return minHelper(root);
 	}
-
 
 	public E minHelper(Node root) {
 		Node current = root;
@@ -226,8 +223,6 @@ public class BST<E extends Comparable<E>>{
 		return parent.data;
 	}
 
-
-
 	public void predecessor(E item) {
 
 		if(predecessorHelper(item) == null) {
@@ -277,7 +272,6 @@ public class BST<E extends Comparable<E>>{
 
 	}
 
-
 	/* Implement inOrder(), preOrder(), postOrder() traversal functions */
 	public void preorder() {
 		if(root == null) {
@@ -325,7 +319,6 @@ public class BST<E extends Comparable<E>>{
 		}
 	}
 
-
 	//	/* Implement delete(E item) */
 	public void delete(E item) {
 		root = deleteHelper(root, item);
@@ -355,8 +348,6 @@ public class BST<E extends Comparable<E>>{
 		return root;
 	}
 
-
-
 	/* Implement clearAll() */
 	public void clearAll() {
 		root = null;
@@ -373,16 +364,17 @@ public class BST<E extends Comparable<E>>{
 	public static void main(String[] args) {
 		BST <Integer> treeDemo = new BST<Integer>();
 		System.out.println("Implement add");
-		treeDemo.add(Integer.valueOf(7));
-		treeDemo.add(Integer.valueOf(4));
-		treeDemo.add(Integer.valueOf(12));
-		treeDemo.add(Integer.valueOf(10));
-		treeDemo.add(Integer.valueOf(16));
-		treeDemo.add(Integer.valueOf(3));
-		treeDemo.add(Integer.valueOf(14));
-		treeDemo.add(Integer.valueOf(22));
-		treeDemo.add(Integer.valueOf(11));
-		treeDemo.add(Integer.valueOf(15));
+		treeDemo.add(7);
+		treeDemo.add(4);
+		treeDemo.add(12);
+		treeDemo.add(10);
+		treeDemo.add(16);
+		treeDemo.add(3);
+		treeDemo.add(14);
+		treeDemo.add(22);
+		treeDemo.add(11);
+		treeDemo.add(15);
+		treeDemo.add(35);
 		treeDemo.search(10);
 		treeDemo.size();
 		treeDemo.height();
@@ -401,6 +393,5 @@ public class BST<E extends Comparable<E>>{
 		treeDemo.inorder();
 		treeDemo.clearAll();
 		treeDemo.isEmpty();
-
 	}
 }
